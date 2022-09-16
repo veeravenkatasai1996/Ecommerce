@@ -1,6 +1,23 @@
-import React from 'react'
+import React,{useState,useRef,useEffect} from 'react'
 
 function Register() {
+  const [details,setDetails]=useState({
+      userName:"",
+      email:"",
+      password:"",
+      confirmPassword:""
+      
+  })
+  const [shoPwd,setShoPwd]=useState(false)
+  const handleChange=((key,value)=>{
+        setDetails({
+          ...details,[key]:value
+        })
+  })
+  const userRef=useRef()
+  useEffect(()=>{
+    userRef.current.focus()
+  },[])
   return (
     <section className="vh-100">
     <div className="container h-custom mt-5 py-5">
@@ -21,9 +38,12 @@ function Register() {
               </label>
               <input
                 type="text"
+                ref={userRef}
                 id="form3Example3"
                 className="form-control form-control-lg"
                 placeholder="Enter a Name"
+                value={details.userName}
+                onChange={(e)=>handleChange('userName',e.target.value)}
               />
             </div>
             <div className="form-outline mb-4">
@@ -35,6 +55,8 @@ function Register() {
                 id="form3Example3"
                 className="form-control form-control-lg"
                 placeholder="Enter a valid email address"
+                value={details.email}
+                onChange={(e)=>handleChange('email',e.target.value)}
               />
             </div>
             
@@ -47,9 +69,24 @@ function Register() {
                 id="form3Example4"
                 className="form-control form-control-lg"
                 placeholder="Enter password"
+                value={details.password}
+                onChange={(e)=>handleChange('password',e.target.value)}
               />
             </div>
 
+            <div className="form-outline mb-3">
+              <label className="form-label" htmlFor="form3Example5">
+                Confirm Password
+              </label>
+              <input
+                type={shoPwd?"text":"password"}
+                id="form3Example5"
+                className="form-control form-control-lg"
+                placeholder="Enter password"
+                value={details.confirmPassword}
+                onChange={(e)=>handleChange('confirmPassword',e.target.value)}
+              />
+            </div>
             <div className="d-flex justify-content-between align-items-center">
               <div className="form-check mb-0">
                 <input
@@ -57,6 +94,7 @@ function Register() {
                   type="checkbox"
                   value=""
                   id="form2Example3"
+                  onClick={()=>setShoPwd(!shoPwd)}
                 />
                 <label className="form-check-label" for="form2Example3">
                   Show Password

@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useState,useRef,useEffect } from "react";
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
 
 function Login() {
+  const userRef=useRef()
+  const [userEmail,setUserEmail]=useState('')
+  const [userPwd,setUserPwd]=useState('')
+  const[showPwd,setShowPwd]=useState(false)
+
+  useEffect(()=>{
+    userRef.current.focus()
+  },[])
   return (
     <section className="vh-100">
       <div className="container h-custom mt-5 py-5">
@@ -25,8 +33,11 @@ function Login() {
                 <input
                   type="email"
                   id="form3Example3"
+                  ref={userRef}
                   className="form-control form-control-lg"
+                  value={userEmail}
                   placeholder="Enter a valid email address"
+                  onChange={(e)=>setUserEmail(e.target.value)}
                 />
               </div>
               <div className="form-outline mb-3">
@@ -34,10 +45,12 @@ function Login() {
                   Password
                 </label>
                 <input
-                  type="password"
+                  type={showPwd?"text":"password"}
                   id="form3Example4"
                   className="form-control form-control-lg"
+                  value={userPwd}
                   placeholder="Enter password"
+                  onChange={(e)=>setUserPwd(e.target.value)}    
                 />
               </div>
 
@@ -48,6 +61,7 @@ function Login() {
                     type="checkbox"
                     value=""
                     id="form2Example3"
+                    onClick={()=>setShowPwd(!showPwd)}
                   />
                   <label className="form-check-label" for="form2Example3">
                     Show Password
@@ -66,7 +80,7 @@ function Login() {
                   Login
                 </button>
                 <p className="small fw-bold mt-2 pt-1 mb-0">
-                Don't have an account?{" "}
+                Don't have an account?
                   <a href="/register" className="link-danger" >
                     Register
                   </a>
